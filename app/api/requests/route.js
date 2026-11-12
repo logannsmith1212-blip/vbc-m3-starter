@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 const LOCATIONS = ["Minneapolis", "Chicago", "Denver", "Austin"];
 const PRIORITIES = ["Low", "Medium", "High", "Urgent"];
 const MAX_DESCRIPTION_LENGTH = 500;
+const MAX_REQUESTER_NAME_LENGTH = 100;
 
 const REQUIRED_FIELDS = [
   ["requester_name", "Requester name"],
@@ -30,6 +31,11 @@ function validateNewRequest(body) {
     values[field] = raw.trim();
   }
 
+  if (values.requester_name.length > MAX_REQUESTER_NAME_LENGTH) {
+    return {
+      error: `Requester name must be ${MAX_REQUESTER_NAME_LENGTH} characters or fewer.`,
+    };
+  }
   if (!LOCATIONS.includes(values.location)) {
     return { error: "Location must be Minneapolis, Chicago, Denver, or Austin." };
   }

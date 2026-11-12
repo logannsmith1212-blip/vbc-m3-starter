@@ -9,7 +9,7 @@ begin;
 create table public.requests (
   id             bigint generated always as identity primary key,
   created_at     timestamptz not null default now(),
-  requester_name text not null check (btrim(requester_name) <> ''),
+  requester_name text not null check (btrim(requester_name) <> '' and char_length(requester_name) <= 100),
   location       text not null check (location in ('Minneapolis', 'Chicago', 'Denver', 'Austin')),
   description    text not null check (btrim(description) <> '' and char_length(description) <= 500),
   priority       text not null check (priority in ('Low', 'Medium', 'High', 'Urgent')),
